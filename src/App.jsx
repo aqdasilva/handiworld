@@ -1,16 +1,22 @@
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Sky, Cloud } from '@react-three/drei';
 import { Suspense, useState } from 'react';
 import { Box } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import Scene3D from './components/Scene3D';
-import FloatingCards from './components/FloatingCards';
-import TopBar from './components/TopBar';
-import Sidebar from './components/Sidebar';
+import FloatingCards from './components/dashboard/FloatingCards';
+import TopBar from './components/bars/TopBar';
+import Scene3D from './components/three-d/Scene3D';
+import SideBar from './components/bars/SideBar';
+import CalendarPage from './components/pages/CalendarPage';
+import TeamsPage from './components/pages/TeamsPage';
+import AnalyticsPage from './components/pages/AnalyticsPage';
+import SettingsPage from './components/pages/SettingsPage';
 import './App.css';
 
-function App() {
+// Component with 3D background on ALL pages
+function AppContent() {
   const [darkMode, setDarkMode] = useState(true);
 
   const handleThemeToggle = () => {
@@ -54,9 +60,9 @@ function App() {
         <TopBar darkMode={darkMode} onThemeToggle={handleThemeToggle} />
         
         {/* Left Sidebar */}
-        <Sidebar />
+        <SideBar />
         
-        {/* 3D Canvas Background */}
+        {/* 3D Canvas Background - Visible on ALL pages */}
         <Canvas
           camera={{ position: [0, 2, 8], fov: 60 }}
           style={{ position: 'absolute', top: 0, left: 0, zIndex: 0 }}
@@ -99,10 +105,24 @@ function App() {
           </Suspense>
         </Canvas>
         
-        {/* Floating UI Cards Overlay */}
-        <FloatingCards />
+        {/* Routes - Pages will replace FloatingCards */}
+        <Routes>
+          <Route path="/" element={<FloatingCards />} />
+          <Route path="/teams" element={<TeamsPage />} />
+          <Route path="/calendar" element={<CalendarPage />} />
+          <Route path="/analytics" element={<AnalyticsPage />} />
+          <Route path="/settings" element={<SettingsPage />} />
+        </Routes>
       </Box>
     </ThemeProvider>
+  );
+}
+
+function App() {
+  return (
+    <Router>
+      <AppContent />
+    </Router>
   );
 }
 

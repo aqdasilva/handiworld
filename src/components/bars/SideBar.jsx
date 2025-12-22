@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Box, List, ListItem, ListItemButton, ListItemIcon, ListItemText, IconButton, Tooltip } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -20,29 +21,39 @@ const GlassSidebar = styled(Box)(({ collapsed }) => ({
   boxShadow: '2px 0 20px rgba(0, 0, 0, 0.2)',
   zIndex: 100,
   transition: 'width 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-  overflow: 'hidden', // Changed from overflowX/Y
-  // Hide scrollbar
+  overflow: 'hidden',
   '&::-webkit-scrollbar': {
     display: 'none',
   },
-  scrollbarWidth: 'none', // Firefox
-  msOverflowStyle: 'none', // IE/Edge
+  scrollbarWidth: 'none',
+  msOverflowStyle: 'none',
 }));
 
 const menuItems = [
-  { id: 1, title: 'Dashboard', icon: <DashboardIcon /> },
-  { id: 2, title: 'Teams', icon: <GroupsIcon /> },
-  { id: 3, title: 'Calendar', icon: <CalendarMonthIcon /> },
-  { id: 4, title: 'Analytics', icon: <BarChartIcon /> },
-  { id: 5, title: 'Settings', icon: <SettingsIcon /> },
+  { id: 1, title: 'Dashboard', icon: <DashboardIcon />, path: '/' },
+  { id: 2, title: 'Teams', icon: <GroupsIcon />, path: '/teams' },
+  { id: 3, title: 'Calendar', icon: <CalendarMonthIcon />, path: '/calendar' },
+  { id: 4, title: 'Analytics', icon: <BarChartIcon />, path: '/analytics' },
+  { id: 5, title: 'Settings', icon: <SettingsIcon />, path: '/settings' },
 ];
 
 function Sidebar() {
   const [collapsed, setCollapsed] = useState(true);
-  const [activeItem, setActiveItem] = useState(1);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const toggleSidebar = () => {
     setCollapsed(!collapsed);
+  };
+
+  const handleNavigation = (path) => {
+    navigate(path);
+  };
+
+  // Determine active item based on current path
+  const getActiveItem = () => {
+    const activeMenuItem = menuItems.find(item => item.path === location.pathname);
+    return activeMenuItem ? activeMenuItem.id : 1;
   };
 
   return (
@@ -83,8 +94,8 @@ function Sidebar() {
           >
             <ListItem disablePadding>
               <ListItemButton
-                selected={activeItem === item.id}
-                onClick={() => setActiveItem(item.id)}
+                selected={getActiveItem() === item.id}
+                onClick={() => handleNavigation(item.path)}
                 sx={{
                   minHeight: 48,
                   justifyContent: collapsed ? 'center' : 'initial',
@@ -122,7 +133,7 @@ function Sidebar() {
                     opacity: collapsed ? 0 : 1,
                     transition: 'opacity 0.3s',
                     '& .MuiTypography-root': {
-                      fontWeight: activeItem === item.id ? 600 : 400,
+                      fontWeight: getActiveItem() === item.id ? 600 : 400,
                       fontSize: '0.95rem',
                     },
                   }}

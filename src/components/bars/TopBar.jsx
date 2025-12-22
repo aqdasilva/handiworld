@@ -164,7 +164,7 @@ function TopBar({ darkMode, onThemeToggle }) {
                 M
               </Avatar>
             }
-            label="Meeting is about to start"
+            label="Locate your child's next destination"
             onDelete={() => {}}
             deleteIcon={<CloseIcon />}
             sx={{ px: 2, py: 2.5 }}
@@ -175,7 +175,7 @@ function TopBar({ darkMode, onThemeToggle }) {
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
           <GlassTabs value={activeTab} onChange={handleTabChange}>
             <GlassTab label="Dashboard" />
-            <GlassTab label="Rooms" />
+            <GlassTab label="Map" />
           </GlassTabs>
           
           <IconButton 

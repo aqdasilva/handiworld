@@ -9,7 +9,8 @@ import {
   Tabs,
   Tab,
 } from '@mui/material';
-import { useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 import SearchIcon from '@mui/icons-material/Search';
 import LightModeIcon from '@mui/icons-material/LightMode';
@@ -69,7 +70,6 @@ const GlassTab = styled(Tab)({
   },
 });
 
-// Theme Toggle Switch styled like the screenshot
 const ThemeToggleContainer = styled(Box)({
   display: 'flex',
   alignItems: 'center',
@@ -99,10 +99,28 @@ const ThemeToggleButton = styled(Box)(({ active }) => ({
 }));
 
 function TopBar({ darkMode, onThemeToggle }) {
+  const navigate = useNavigate();
+  const location = useLocation();
   const [activeTab, setActiveTab] = useState(0);
+
+  // Sync active tab with current route
+  useEffect(() => {
+    const path = location.pathname;
+    if (path === '/' || path === '/dashboard') {
+      setActiveTab(0);
+    } else if (path === '/maps') {
+      setActiveTab(1);
+    }
+  }, [location.pathname]);
 
   const handleTabChange = (event, newValue) => {
     setActiveTab(newValue);
+    // Navigate to the corresponding route
+    if (newValue === 0) {
+      navigate('/');
+    } else if (newValue === 1) {
+      navigate('/maps');
+    }
   };
 
   return (

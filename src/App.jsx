@@ -13,6 +13,7 @@ import CalendarPage from './components/pages/CalendarPage';
 import TeamsPage from './components/pages/TeamsPage';
 import AnalyticsPage from './components/pages/AnalyticsPage';
 import SettingsPage from './components/pages/SettingsPage';
+import Maps from './components/pages/Maps'; // Add this import
 import './App.css';
 
 // Component with 3D background on ALL pages
@@ -108,6 +109,7 @@ function AppContent() {
         {/* Routes - Pages will replace FloatingCards */}
         <Routes>
           <Route path="/" element={<FloatingCards />} />
+          <Route path="/maps" element={<Maps />} />  {/* Add Maps route */}
           <Route path="/teams" element={<TeamsPage />} />
           <Route path="/calendar" element={<CalendarPage />} />
           <Route path="/analytics" element={<AnalyticsPage />} />

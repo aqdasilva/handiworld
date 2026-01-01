@@ -1,15 +1,23 @@
 import { Box, Card, CardContent, Typography, Avatar, AvatarGroup, IconButton } from '@mui/material';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
 const MotionCard = motion(Card);
 
 function DoctorsSpecialistsCard({ index = 0 }) {
+  const navigate = useNavigate();
+
+  const handleCardClick = () => {
+    navigate('/doctors');
+  };
+
   return (
     <MotionCard
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.1 + index * 0.08, duration: 0.5 }}
+      onClick={handleCardClick}
       sx={{
         width: '100%',
         minHeight: 140,

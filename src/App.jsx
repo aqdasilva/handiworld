@@ -9,11 +9,14 @@ import FloatingCards from './components/dashboard/FloatingCards';
 import TopBar from './components/bars/TopBar';
 import Scene3D from './components/three-d/Scene3D';
 import SideBar from './components/bars/SideBar';
+import Footer from './components/layout/Footer';
 import CalendarPage from './components/pages/CalendarPage';
 import TeamsPage from './components/pages/TeamsPage';
 import AnalyticsPage from './components/pages/AnalyticsPage';
 import SettingsPage from './components/pages/SettingsPage';
-import Maps from './components/pages/Maps'; // Add this import
+import Maps from './components/pages/Maps';
+import DoctorsPage from './components/pages/DoctorsPage';
+import ProductsToysPage from './components/pages/ProductsToysPage';
 import './App.css';
 
 // Component with 3D background on ALL pages
@@ -24,18 +27,18 @@ function AppContent() {
     setDarkMode(!darkMode);
   };
 
-  // Create theme based on dark mode state
+  // Create theme based on dark mode state with soft pastel colors
   const theme = createTheme({
     palette: {
       mode: darkMode ? 'dark' : 'light',
       primary: {
-        main: '#4a8a52',
+        main: '#B8A5D6', // Soft lavender
       },
       secondary: {
-        main: '#87CEEB',
+        main: '#A8D5E2', // Soft sky blue
       },
       background: {
-        default: darkMode ? '#1a1a1a' : '#f5f5f5',
+        default: darkMode ? '#2a2438' : '#f9f5f9',
         paper: darkMode ? 'transparent' : 'rgba(255, 255, 255, 0.9)',
       },
     },
@@ -48,12 +51,12 @@ function AppContent() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Box 
-        sx={{ 
-          width: '100vw', 
-          height: '100vh', 
-          position: 'relative', 
+        sx={{
+          width: '100vw',
+          height: '100vh',
+          position: 'relative',
           overflow: 'hidden',
-          backgroundColor: darkMode ? '#1a1a1a' : '#e3f2fd',
+          backgroundColor: darkMode ? '#2a2438' : '#f5ebf7',
           transition: 'background-color 0.3s ease',
         }}
       >
@@ -75,13 +78,13 @@ function AppContent() {
             <pointLight position={[-10, -10, -5]} intensity={0.2} />
             <hemisphereLight args={['#b8d4e8', '#6b8e6f', 0.4]} />
             
-            {/* Sky and Environment - softer colors */}
-            <Sky 
-              sunPosition={[100, 20, 100]} 
-              turbidity={8}
-              rayleigh={0.5}
-              mieCoefficient={0.005}
-              mieDirectionalG={0.8}
+            {/* Sky and Environment - pastel lavender/pink colors */}
+            <Sky
+              sunPosition={[100, 20, 100]}
+              turbidity={3}
+              rayleigh={1.5}
+              mieCoefficient={0.002}
+              mieDirectionalG={0.95}
             />
             <Cloud 
               opacity={0.25} 
@@ -109,12 +112,17 @@ function AppContent() {
         {/* Routes - Pages will replace FloatingCards */}
         <Routes>
           <Route path="/" element={<FloatingCards />} />
-          <Route path="/maps" element={<Maps />} />  {/* Add Maps route */}
+          <Route path="/maps" element={<Maps />} />
+          <Route path="/doctors" element={<DoctorsPage />} />
+          <Route path="/products" element={<ProductsToysPage />} />
           <Route path="/teams" element={<TeamsPage />} />
           <Route path="/calendar" element={<CalendarPage />} />
           <Route path="/analytics" element={<AnalyticsPage />} />
           <Route path="/settings" element={<SettingsPage />} />
         </Routes>
+
+        {/* Footer with email subscription */}
+        <Footer />
       </Box>
     </ThemeProvider>
   );

@@ -15,7 +15,7 @@ function Scene3D() {
 
   return (
     <group>
-      {/* Ground Plane with grass-like texture - muted colors */}
+      {/* Ground Plane with navy blue texture */}
       <mesh
         ref={meshRef}
         rotation={[-Math.PI / 2, 0, 0]}
@@ -28,37 +28,37 @@ function Scene3D() {
           resolution={2048}
           mixBlur={1}
           mixStrength={20}
-          roughness={0.9}
+          roughness={0.8}
           depthScale={1.2}
           minDepthThreshold={0.4}
           maxDepthThreshold={1.4}
-          color="#5a7c60"
+          color="#1F3A5F"
+          metalness={0.3}
+        />
+      </mesh>
+
+      {/* Add some rolling hills using displaced geometry - soft teal */}
+      <mesh position={[0, -0.5, -10]} rotation={[-Math.PI / 2, 0, 0]}>
+        <planeGeometry args={[100, 50, 50, 50]} />
+        <meshStandardMaterial
+          color="#4FA3A5"
+          roughness={0.75}
           metalness={0.2}
         />
       </mesh>
 
-      {/* Add some rolling hills using displaced geometry - softer greens */}
-      <mesh position={[0, -0.5, -10]} rotation={[-Math.PI / 2, 0, 0]}>
-        <planeGeometry args={[100, 50, 50, 50]} />
-        <meshStandardMaterial
-          color="#6b8e6f"
-          roughness={0.85}
-          metalness={0.1}
-        />
-      </mesh>
-
-      {/* Background hills - more muted */}
+      {/* Background hills - warm peach */}
       <mesh position={[0, -1, -30]} rotation={[-Math.PI / 2, 0, 0]}>
         <planeGeometry args={[100, 30, 30, 30]} />
         <meshStandardMaterial
-          color="#7a9d7e"
-          roughness={0.9}
-          metalness={0.05}
+          color="#F4A261"
+          roughness={0.8}
+          metalness={0.15}
         />
       </mesh>
 
-      {/* Fog for depth - softer sky color */}
-      <fog attach="fog" args={['#b8d4e8', 10, 50]} />
+      {/* Fog for depth - navy blue */}
+      <fog attach="fog" args={['#1F3A5F', 10, 50]} />
     </group>
   );
 }

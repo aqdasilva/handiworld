@@ -9,16 +9,18 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import SettingsIcon from '@mui/icons-material/Settings';
 
-const GlassSidebar = styled(Box)(({ collapsed }) => ({
+const GlassSidebar = styled(Box, {
+  shouldForwardProp: (prop) => prop !== 'collapsed',
+})(({ collapsed }) => ({
   position: 'fixed',
   left: 0,
   top: 64, // Below the AppBar
   height: 'calc(100vh - 64px)',
   width: collapsed ? '70px' : '240px',
-  background: 'rgba(20, 40, 60, 0.35)', // Darker background
-  backdropFilter: 'blur(30px) saturate(180%)',
-  borderRight: '1px solid rgba(255, 255, 255, 0.3)',
-  boxShadow: '2px 0 20px rgba(0, 0, 0, 0.2)',
+  background: 'rgba(31, 58, 95, 0.85)', // Navy blue - trust & stability
+  backdropFilter: 'blur(30px) saturate(150%)',
+  borderRight: '1px solid rgba(31, 58, 95, 0.95)',
+  boxShadow: '2px 0 20px rgba(31, 58, 95, 0.6)',
   zIndex: 100,
   transition: 'width 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
   overflow: 'hidden',
@@ -71,9 +73,9 @@ function Sidebar() {
           onClick={toggleSidebar}
           sx={{
             color: '#fff',
-            bgcolor: 'rgba(255, 255, 255, 0.15)',
+            bgcolor: 'rgba(255, 209, 102, 0.9)', // Golden yellow
             '&:hover': {
-              bgcolor: 'rgba(255, 255, 255, 0.25)',
+              bgcolor: 'rgba(242, 201, 76, 1)', // Darker golden yellow
               transform: 'scale(1.05)',
             },
             transition: 'all 0.2s ease',
@@ -103,15 +105,15 @@ function Sidebar() {
                   py: 1.5,
                   color: 'rgba(255, 255, 255, 0.9)',
                   '&:hover': {
-                    bgcolor: 'rgba(255, 255, 255, 0.2)',
+                    bgcolor: 'rgba(79, 163, 165, 0.7)', // Soft teal hover
                     color: '#fff',
                   },
                   '&.Mui-selected': {
-                    bgcolor: 'rgba(255, 255, 255, 0.25)',
+                    bgcolor: 'rgba(79, 163, 165, 0.85)', // Soft teal selected
                     color: '#fff',
-                    borderLeft: '4px solid #fff',
+                    borderLeft: '4px solid rgba(255, 209, 102, 1)', // Golden yellow accent
                     '&:hover': {
-                      bgcolor: 'rgba(255, 255, 255, 0.3)',
+                      bgcolor: 'rgba(79, 163, 165, 0.95)',
                     },
                   },
                   transition: 'all 0.3s ease',

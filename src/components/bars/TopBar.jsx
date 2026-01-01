@@ -18,16 +18,16 @@ import DarkModeIcon from '@mui/icons-material/DarkMode';
 import { styled } from '@mui/material/styles';
 
 const GlassAppBar = styled(AppBar)({
-  background: 'rgba(20, 40, 60, 0.25)',
-  backdropFilter: 'blur(30px)',
-  borderBottom: '1px solid rgba(255, 255, 255, 0.2)',
-  boxShadow: '0 2px 20px rgba(0, 0, 0, 0.1)',
+  background: 'rgba(31, 58, 95, 0.85)', // Navy blue - trust & authority
+  backdropFilter: 'blur(30px) saturate(150%)',
+  borderBottom: '1px solid rgba(31, 58, 95, 0.95)',
+  boxShadow: '0 2px 20px rgba(31, 58, 95, 0.6)',
 });
 
 const GlassChip = styled(Chip)({
-  background: 'rgba(255, 255, 255, 0.2)',
-  backdropFilter: 'blur(15px)',
-  border: '1px solid rgba(255, 255, 255, 0.25)',
+  background: 'rgba(79, 163, 165, 0.75)', // Soft teal - caring & approachable
+  backdropFilter: 'blur(15px) saturate(150%)',
+  border: '1px solid rgba(79, 163, 165, 0.95)',
   color: '#fff',
   fontWeight: 500,
   '& .MuiChip-deleteIcon': {
@@ -39,9 +39,9 @@ const GlassChip = styled(Chip)({
 });
 
 const GlassTabs = styled(Tabs)({
-  background: 'rgba(255, 255, 255, 0.15)',
-  backdropFilter: 'blur(20px)',
-  border: '1px solid rgba(255, 255, 255, 0.25)',
+  background: 'rgba(79, 163, 165, 0.7)', // Soft teal
+  backdropFilter: 'blur(20px) saturate(150%)',
+  border: '1px solid rgba(79, 163, 165, 0.9)',
   borderRadius: '24px',
   padding: '4px',
   minHeight: '44px',
@@ -61,11 +61,11 @@ const GlassTab = styled(Tab)({
   transition: 'all 0.3s ease',
   '&.Mui-selected': {
     color: '#fff',
-    background: 'rgba(255, 255, 255, 0.3)',
-    backdropFilter: 'blur(10px)',
+    background: 'rgba(31, 58, 95, 0.9)', // Navy blue
+    backdropFilter: 'blur(10px) saturate(150%)',
   },
   '&:hover': {
-    background: 'rgba(255, 255, 255, 0.2)',
+    background: 'rgba(31, 58, 95, 0.75)',
     color: '#fff',
   },
 });
@@ -74,23 +74,25 @@ const ThemeToggleContainer = styled(Box)({
   display: 'flex',
   alignItems: 'center',
   gap: '12px',
-  background: 'rgba(255, 255, 255, 0.15)',
-  backdropFilter: 'blur(20px)',
-  border: '1px solid rgba(255, 255, 255, 0.25)',
+  background: 'rgba(244, 162, 97, 0.7)', // Warm peach - empathy & connection
+  backdropFilter: 'blur(20px) saturate(150%)',
+  border: '1px solid rgba(244, 162, 97, 0.9)',
   borderRadius: '50px',
   padding: '4px 16px 4px 4px',
   cursor: 'pointer',
   transition: 'all 0.3s ease',
   '&:hover': {
-    background: 'rgba(255, 255, 255, 0.25)',
+    background: 'rgba(244, 162, 97, 0.85)',
   },
 });
 
-const ThemeToggleButton = styled(Box)(({ active }) => ({
+const ThemeToggleButton = styled(Box, {
+  shouldForwardProp: (prop) => prop !== 'active',
+})(({ active }) => ({
   width: '40px',
   height: '40px',
   borderRadius: '50%',
-  background: active ? 'rgba(255, 255, 255, 0.3)' : 'transparent',
+  background: active ? 'rgba(255, 209, 102, 0.9)' : 'transparent', // Golden yellow when active
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
@@ -113,7 +115,7 @@ function TopBar({ darkMode, onThemeToggle }) {
     }
   }, [location.pathname]);
 
-  const handleTabChange = (event, newValue) => {
+  const handleTabChange = (_event, newValue) => {
     setActiveTab(newValue);
     // Navigate to the corresponding route
     if (newValue === 0) {
@@ -132,10 +134,10 @@ function TopBar({ darkMode, onThemeToggle }) {
             sx={{
               width: 40,
               height: 40,
-              bgcolor: 'rgba(255, 255, 255, 0.3)',
+              bgcolor: 'rgba(79, 163, 165, 1)', // Soft teal
               color: '#fff',
               fontWeight: 600,
-              border: '2px solid rgba(255, 255, 255, 0.3)',
+              border: '2px solid rgba(31, 58, 95, 1)', // Navy blue border
             }}
           >
             U
@@ -178,7 +180,7 @@ function TopBar({ darkMode, onThemeToggle }) {
         <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center' }}>
           <GlassChip
             avatar={
-              <Avatar sx={{ bgcolor: 'rgba(100, 150, 250, 0.7)' }}>
+              <Avatar sx={{ bgcolor: 'rgba(255, 209, 102, 1)' }}> {/* Golden yellow accent */}
                 M
               </Avatar>
             }

@@ -6,7 +6,6 @@ import WeeklyInsightsCard from './WeeklyInsightsCard';
 import ProductsToysCard from './ProductsToysCard';
 import DoctorsSpecialistsCard from './DoctorsSpecialistsCard';
 import CoreProductTeamCard from './CoreProductTeamCard';
-import EmailListCard from './EmailListCard';
 
 function FloatingCards() {
   return (
@@ -41,11 +40,11 @@ function FloatingCards() {
         <WeeklyInsightsCard index={3} />
       </Box>
 
-      {/* Bottom Row - 4 Cards */}
+      {/* Bottom Row - 3 Cards */}
       <Box
         sx={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(4, 1fr)',
+          gridTemplateColumns: 'repeat(3, 1fr)',
           gap: 3,
           pointerEvents: 'auto',
         }}
@@ -53,7 +52,6 @@ function FloatingCards() {
         <ProductsToysCard index={4} />
         <DoctorsSpecialistsCard index={5} />
         <CoreProductTeamCard index={6} />
-        <EmailListCard index={7} />
       </Box>
     </Box>
   );

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import { Box, Paper, IconButton, Typography, Chip, Avatar } from '@mui/material';
 import { styled } from '@mui/material/styles';
@@ -50,10 +50,10 @@ const GlassContainer = styled(Box)({
   height: '100%',
   borderRadius: '24px',
   overflow: 'hidden',
-  background: 'rgba(255, 255, 255, 0.1)',
-  backdropFilter: 'blur(20px)',
-  border: '1px solid rgba(255, 255, 255, 0.2)',
-  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+  background: 'rgba(31, 58, 95, 0.85)', // Navy blue - trust & authority
+  backdropFilter: 'blur(20px) saturate(150%)',
+  border: '1px solid rgba(31, 58, 95, 0.9)',
+  boxShadow: '0 8px 32px rgba(31, 58, 95, 0.4)',
   position: 'relative',
 });
 
@@ -62,26 +62,26 @@ const GlassControls = styled(Paper)({
   top: '20px',
   right: '20px',
   zIndex: 1000,
-  background: 'rgba(20, 40, 60, 0.25)',
-  backdropFilter: 'blur(30px)',
-  border: '1px solid rgba(255, 255, 255, 0.2)',
+  background: 'rgba(31, 58, 95, 0.85)', // Navy blue - trust & authority
+  backdropFilter: 'blur(30px) saturate(150%)',
+  border: '1px solid rgba(31, 58, 95, 0.9)',
   borderRadius: '16px',
   padding: '8px',
   display: 'flex',
   flexDirection: 'column',
   gap: '8px',
-  boxShadow: '0 4px 20px rgba(0, 0, 0, 0.2)',
+  boxShadow: '0 4px 20px rgba(31, 58, 95, 0.5)',
 });
 
 const GlassButton = styled(IconButton)({
-  background: 'rgba(255, 255, 255, 0.15)',
-  backdropFilter: 'blur(10px)',
+  background: 'rgba(255, 209, 102, 0.9)', // Golden yellow - attention without alarm
+  backdropFilter: 'blur(10px) saturate(150%)',
   color: '#fff',
   width: '44px',
   height: '44px',
   transition: 'all 0.3s ease',
   '&:hover': {
-    background: 'rgba(255, 255, 255, 0.25)',
+    background: 'rgba(255, 209, 102, 0.95)',
     transform: 'scale(1.05)',
   },
 });
@@ -91,55 +91,40 @@ const LocationInfo = styled(Box)({
   bottom: '20px',
   left: '20px',
   zIndex: 1000,
-  background: 'rgba(20, 40, 60, 0.25)',
-  backdropFilter: 'blur(30px)',
-  border: '1px solid rgba(255, 255, 255, 0.2)',
+  background: 'rgba(31, 58, 95, 0.85)', // Navy blue - trust & authority
+  backdropFilter: 'blur(30px) saturate(150%)',
+  border: '1px solid rgba(31, 58, 95, 0.9)',
   borderRadius: '16px',
   padding: '16px 20px',
-  boxShadow: '0 4px 20px rgba(0, 0, 0, 0.2)',
+  boxShadow: '0 4px 20px rgba(31, 58, 95, 0.5)',
   display: 'flex',
   alignItems: 'center',
   gap: '12px',
 });
 
-// Helper component for map controls
-function MapControls({ onZoomIn, onZoomOut, onRecenter }) {
-  return (
-    <GlassControls elevation={0}>
-      <GlassButton onClick={onRecenter} size="small">
-        <MyLocationIcon />
-      </GlassButton>
-      <GlassButton onClick={onZoomIn} size="small">
-        <ZoomInIcon />
-      </GlassButton>
-      <GlassButton onClick={onZoomOut} size="small">
-        <ZoomOutIcon />
-      </GlassButton>
-    </GlassControls>
-  );
-}
-
 // Helper component to control map from inside
-function MapController({ center, zoom }) {
+function MapController({ center, zoom, onControlsReady }) {
   const map = useMap();
-  
-  const handleZoomIn = () => map.zoomIn();
-  const handleZoomOut = () => map.zoomOut();
-  const handleRecenter = () => map.setView(center, zoom);
-  
-  return (
-    <MapControls 
-      onZoomIn={handleZoomIn}
-      onZoomOut={handleZoomOut}
-      onRecenter={handleRecenter}
-    />
-  );
+
+  useEffect(() => {
+    const handleZoomIn = () => map.zoomIn();
+    const handleZoomOut = () => map.zoomOut();
+    const handleRecenter = () => map.setView(center, zoom);
+
+    // Pass handlers to parent component
+    if (onControlsReady) {
+      onControlsReady({ handleZoomIn, handleZoomOut, handleRecenter });
+    }
+  }, [map, center, zoom, onControlsReady]);
+
+  return null;
 }
 
 function Maps() {
   // Default center (New York City) - you can change this
   const [center] = useState([40.7128, -74.0060]);
   const [zoom] = useState(13);
+  const [mapControls, setMapControls] = useState(null);
 
   // Sample locations - replace with your actual data
   const locations = [
@@ -182,15 +167,15 @@ function Maps() {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        
+
         {/* Alternative tile layers (uncomment to use):
-        
+
         CartoDB Dark Matter:
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
           url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
         />
-        
+
         CartoDB Voyager:
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
@@ -218,15 +203,30 @@ function Maps() {
           </Marker>
         ))}
 
-        {/* Map Controls */}
-        <MapController center={center} zoom={zoom} />
+        {/* Map Controller - sets up handlers */}
+        <MapController center={center} zoom={zoom} onControlsReady={setMapControls} />
       </MapContainer>
+
+      {/* Map Controls - rendered outside MapContainer */}
+      {mapControls && (
+        <GlassControls elevation={0}>
+          <GlassButton onClick={mapControls.handleRecenter} size="small">
+            <MyLocationIcon />
+          </GlassButton>
+          <GlassButton onClick={mapControls.handleZoomIn} size="small">
+            <ZoomInIcon />
+          </GlassButton>
+          <GlassButton onClick={mapControls.handleZoomOut} size="small">
+            <ZoomOutIcon />
+          </GlassButton>
+        </GlassControls>
+      )}
 
       {/* Location Info Card */}
       <LocationInfo>
         <Avatar
           sx={{
-            bgcolor: 'rgba(99, 102, 241, 0.8)',
+            bgcolor: 'rgba(79, 163, 165, 1.0)', // Soft teal - caring & approachable
             width: 36,
             height: 36,
           }}
@@ -244,9 +244,9 @@ function Maps() {
             label="Last updated: 2 min ago"
             size="small"
             sx={{
-              background: 'rgba(34, 197, 94, 0.3)',
-              backdropFilter: 'blur(10px)',
-              border: '1px solid rgba(34, 197, 94, 0.4)',
+              background: 'rgba(255, 209, 102, 0.9)', // Golden yellow - attention without alarm
+              backdropFilter: 'blur(10px) saturate(150%)',
+              border: '1px solid rgba(255, 209, 102, 0.95)',
               color: '#fff',
               fontSize: '0.7rem',
               height: '20px',
